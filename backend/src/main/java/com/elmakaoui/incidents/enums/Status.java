@@ -1,0 +1,5 @@
+package com.elmakaoui.incidents.enums;
+
+public enum Status {
+    OPEN, ASSIGNED, IN_PROGRESS, RESOLVED, CLOSED
+}
