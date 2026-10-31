@@ -4,6 +4,9 @@ import com.elmakaoui.incidents.dtos.CreateIncidentRequest;
 import com.elmakaoui.incidents.dtos.IncidentDetailsResponse;
 import com.elmakaoui.incidents.dtos.IncidentResponse;
 import com.elmakaoui.incidents.services.IncidentService;
+import com.elmakaoui.incidents.dtos.CommentResponse;
+import com.elmakaoui.incidents.dtos.CreateCommentRequest;
+import com.elmakaoui.incidents.dtos.UpdateStatusRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,5 +51,25 @@ public class IncidentController {
     @PreAuthorize("isAuthenticated()")
     public IncidentDetailsResponse details(@PathVariable Long id) {
         return incidentService.getDetails(id);
+    }
+
+    @PutMapping("/{id}/assign/{technicianId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public IncidentResponse assign(@PathVariable Long id, @PathVariable Long technicianId) {
+        return incidentService.assign(id, technicianId);
+    }
+
+    @PutMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole('TECHNICIAN', 'ADMIN')")
+    public IncidentResponse updateStatus(@PathVariable Long id,
+                                         @Valid @RequestBody UpdateStatusRequest request) {
+        return incidentService.updateStatus(id, request);
+    }
+
+    @PostMapping("/{id}/comments")
+    @PreAuthorize("hasAnyRole('TECHNICIAN', 'ADMIN')")
+    public ResponseEntity<CommentResponse> addComment(@PathVariable Long id,
+                                                      @Valid @RequestBody CreateCommentRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(incidentService.addComment(id, request));
     }
 }
