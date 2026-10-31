@@ -36,4 +36,6 @@ public interface IncidentRepository extends JpaRepository<Incident, Long> {
     long countByAssignedToEmailAndPriority(String email, Priority priority);
 
     long countByStatus(Status status);
+
+    long countByAssignedToEmailAndStatusIn(String email, Collection<Status> statuses);
 }

@@ -52,6 +52,8 @@ public class JwtFilter extends OncePerRequestFilter {
                                     userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    request.setAttribute(JWT_ERROR_ATTRIBUTE, "Ce compte est désactivé");
                 }
             }
         } catch (ExpiredJwtException e) {
