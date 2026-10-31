@@ -1,0 +1,118 @@
+/* ========== Design tokens ========== */
+:root {
+  --color-bg: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text: #1e293b;
+  --color-muted: #64748b;
+
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-success: #16a34a;
+
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --space: 16px;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; }
+h1, h2, h3 { margin: 0 0 var(--space); }
+
+/* ========== Layout ========== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: calc(var(--space) * 1.5) var(--space);
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: calc(var(--space) * 1.5);
+}
+
+.row { display: flex; gap: calc(var(--space) / 2); flex-wrap: wrap; align-items: center; }
+
+/* ========== Buttons ========== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-primary { background: var(--color-primary); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--color-primary-hover); }
+
+.btn-danger { background: var(--color-danger); color: #fff; }
+.btn-danger:hover:not(:disabled) { background: var(--color-danger-hover); }
+
+.btn-secondary { background: var(--color-surface); color: var(--color-text); border-color: var(--color-border); }
+.btn-secondary:hover:not(:disabled) { background: var(--color-bg); }
+
+/* ========== Forms ========== */
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: var(--space); }
+.form-group label { font-weight: 500; font-size: 0.9rem; }
+
+.input, .select, .textarea {
+  padding: 9px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font: inherit;
+  background: var(--color-surface);
+}
+.input:focus, .select:focus, .textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+}
+.textarea { min-height: 120px; resize: vertical; }
+
+.field-error { color: var(--color-danger); font-size: 0.85rem; }
+
+/* ========== Alerts ========== */
+.alert { padding: 12px var(--space); border-radius: var(--radius); margin-bottom: var(--space); }
+.alert-error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.alert-success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.alert-info    { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+
+/* ========== Tables ========== */
+.table { width: 100%; border-collapse: collapse; background: var(--color-surface); }
+.table th, .table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--color-border); }
+.table th { font-size: 0.85rem; color: var(--color-muted); font-weight: 600; text-transform: uppercase; }
+.table tbody tr:hover { background: var(--color-bg); }
+
+/* ========== Badges: status and priority ========== */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.badge-OPEN        { background: #dbeafe; color: #1e40af; }
+.badge-ASSIGNED    { background: #ede9fe; color: #5b21b6; }
+.badge-IN_PROGRESS { background: #fef3c7; color: #92400e; }
+.badge-RESOLVED    { background: #dcfce7; color: #166534; }
+.badge-CLOSED      { background: #e2e8f0; color: #334155; }
+
+.badge-LOW      { background: #f1f5f9; color: #475569; }
+.badge-MEDIUM   { background: #dbeafe; color: #1e40af; }
+.badge-HIGH     { background: #ffedd5; color: #9a3412; }
+.badge-CRITICAL { background: #fee2e2; color: #991b1b; }
