@@ -22,6 +22,7 @@ public class ProfileService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
 
     @Transactional(readOnly = true)
     public UserResponse getProfile() {
@@ -58,5 +59,6 @@ public class ProfileService {
         }
 
         user.setPassword(passwordEncoder.encode(request.newPassword()));
+        refreshTokenService.revokeAllForUser(user);
     }
 }

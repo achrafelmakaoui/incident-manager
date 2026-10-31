@@ -92,6 +92,12 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.UNAUTHORIZED, "Authentification requise", null);
     }
 
+    // 401: refresh token unknown, expired, revoked or reused -> the user must log in again
+    @ExceptionHandler(InvalidRefreshTokenException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidRefresh(InvalidRefreshTokenException ex) {
+        return build(HttpStatus.UNAUTHORIZED, ex.getMessage(), null);
+    }
+
     private ResponseEntity<ErrorResponse> build(HttpStatus status, String message, Map<String, String> errors) {
         return ResponseEntity.status(status).body(new ErrorResponse(status.value(), message, errors));
     }

@@ -9,6 +9,8 @@ import com.elmakaoui.incidents.exceptions.EmailAlreadyUsedException;
 import com.elmakaoui.incidents.exceptions.ResourceNotFoundException;
 import com.elmakaoui.incidents.repositories.UserRepository;
 import com.elmakaoui.incidents.security.JwtService;
+import com.elmakaoui.incidents.dtos.RefreshTokenRequest;
+import com.elmakaoui.incidents.exceptions.InvalidRefreshTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +26,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -58,9 +61,20 @@ public class AuthService {
         return toAuthResponse(user);
     }
 
+    @Transactional(noRollbackFor = InvalidRefreshTokenException.class)
+    public AuthResponse refresh(RefreshTokenRequest request) {
+        User user = refreshTokenService.rotate(request.refreshToken());
+        return toAuthResponse(user);
+    }
+
+    public void logout(RefreshTokenRequest request) {
+        refreshTokenService.revoke(request.refreshToken());
+    }
+
     private AuthResponse toAuthResponse(User user) {
         return new AuthResponse(
                 jwtService.generateAccessToken(user),
+                refreshTokenService.create(user),
                 user.getRole().name(),
                 user.getFullName());
     }
