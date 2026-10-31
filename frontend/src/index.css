@@ -138,3 +138,26 @@ h1, h2, h3 { margin: 0 0 var(--space); }
 .table-link:hover { text-decoration: underline; }
 
 .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: var(--space); }
+
+
+
+/* ========== Pages ========== */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space);
+  flex-wrap: wrap;
+  margin-bottom: calc(var(--space) * 1.5);
+}
+.page-header h1 { margin: 0; }
+
+.muted { color: var(--color-muted); }
+.empty-state { text-align: center; color: var(--color-muted); padding: calc(var(--space) * 2); }
+.loading { color: var(--color-muted); padding: var(--space) 0; }
+
+.table-wrapper { padding: 0; overflow-x: auto; }   /* the table can scroll on small screens */
+.table-link { color: var(--color-primary); font-weight: 500; text-decoration: none; }
+.table-link:hover { text-decoration: underline; }
+
+.form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: var(--space); }

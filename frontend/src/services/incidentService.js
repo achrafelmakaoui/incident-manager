@@ -1,5 +1,7 @@
 import api from './api'
 
+// Each function returns the response data directly, so pages never deal with Axios objects
+
 export async function createIncident(incident) {
     const { data } = await api.post('/api/incidents', incident)
     return data

@@ -3,28 +3,28 @@ import { Link, useParams } from 'react-router-dom'
 import { getIncidentDetails } from '../services/incidentService'
 import { CATEGORY_LABELS, PRIORITY_LABELS, STATUS_LABELS, formatDate } from '../utils/labels'
 import './IncidentDetails.css'
+import IncidentActions from '../components/IncidentActions'
+import { useAuth } from '../context/AuthContext'
 
 export default function IncidentDetails() {
     const { id } = useParams()
     const [details, setDetails] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
+    const { user } = useAuth()
+    const [reloadKey, setReloadKey] = useState(0)
 
     useEffect(() => {
         let ignore = false
-        setLoading(true)
         setError('')
 
         getIncidentDetails(id)
             .then((data) => { if (!ignore) setDetails(data) })
-            .catch((err) => {
-                if (ignore) return
-                setError(err.response?.data?.message || 'Erreur de chargement')
-            })
+            .catch((err) => { if (!ignore) setError(err.response?.data?.message || 'Erreur de chargement') })
             .finally(() => { if (!ignore) setLoading(false) })
 
         return () => { ignore = true }
-    }, [id])
+    }, [id, reloadKey])
 
     if (loading) return <div className="container"><p className="loading">Chargement...</p></div>
 
@@ -78,6 +78,10 @@ export default function IncidentDetails() {
                         )}
                     </section>
                 </div>
+
+                {(user.role === 'TECHNICIAN' || user.role === 'ADMIN') && (
+                    <IncidentActions incident={incident} onChange={() => setReloadKey((k) => k + 1)} />
+                )}
 
                 {/* Right column: information and history */}
                 <aside className="details-side">

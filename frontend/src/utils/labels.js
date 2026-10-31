@@ -29,7 +29,7 @@ const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
     hour: '2-digit', minute: '2-digit',
 })
 
-// "2026-10-31T04:13:27.123" -> "31/10/2026 04:13"
+/** "2026-10-31T04:13:27.123" -> "31/10/2026 04:13" */
 export function formatDate(value) {
     return value ? dateFormatter.format(new Date(value)) : '—'
 }

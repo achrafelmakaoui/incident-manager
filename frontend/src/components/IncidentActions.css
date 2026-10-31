@@ -1,0 +1,8 @@
+.actions h3 { font-size: 0.95rem; margin: 0 0 8px; }
+
+.action-block { padding-top: var(--space); border-top: 1px solid var(--color-border); }
+.action-block:first-of-type { border-top: none; padding-top: 0; }
+.action-block + .action-block { margin-top: var(--space); }
+
+.action-select { flex: 1; min-width: 180px; }
+.actions .textarea { width: 100%; min-height: 90px; }
