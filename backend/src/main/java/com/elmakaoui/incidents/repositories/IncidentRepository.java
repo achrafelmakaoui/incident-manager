@@ -4,6 +4,7 @@ import com.elmakaoui.incidents.entities.Incident;
 import com.elmakaoui.incidents.enums.Priority;
 import com.elmakaoui.incidents.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,13 +12,18 @@ import java.util.List;
 public interface IncidentRepository extends JpaRepository<Incident, Long> {
 
     // EMPLOYEE: own incidents
+    @EntityGraph(attributePaths = {"createdBy", "assignedTo"})
     List<Incident> findByCreatedByEmailOrderByCreatedAtDesc(String email);
+
+    @EntityGraph(attributePaths = {"createdBy", "assignedTo"})
     List<Incident> findTop5ByCreatedByEmailOrderByCreatedAtDesc(String email);   // dashboard "latest incidents"
 
     // TECHNICIAN: assigned incidents
+    @EntityGraph(attributePaths = {"createdBy", "assignedTo"})
     List<Incident> findByAssignedToEmailOrderByCreatedAtDesc(String email);
 
     // ADMIN: all incidents, newest first
+    @EntityGraph(attributePaths = {"createdBy", "assignedTo"})
     List<Incident> findAllByOrderByCreatedAtDesc();
 
     // Dashboard counters
