@@ -1,40 +1,60 @@
-import { useState } from 'react'
-import api from './services/api'
-import { login, logout } from './services/authService'
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import Navbar from './components/Navbar'
+import ProtectedRoute from './components/ProtectedRoute'
+import RoleRoute from './components/RoleRoute'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Dashboard from './pages/Dashboard'
+import Profile from './pages/Profile'
+import MyIncidents from './pages/MyIncidents'
+import NewIncident from './pages/NewIncident'
+import IncidentDetails from './pages/IncidentDetails'
+import AssignedIncidents from './pages/AssignedIncidents'
+import AdminUsers from './pages/AdminUsers'
+import AdminIncidents from './pages/AdminIncidents'
+
+function AppLayout() {
+  return (
+      <>
+        <Navbar />
+        <main>
+          <Outlet />
+        </main>
+      </>
+  )
+}
 
 export default function App() {
-  const [result, setResult] = useState(null)
-
-  async function run(action) {
-    try {
-      setResult(await action())
-    } catch (e) {
-      setResult(e.response?.data ?? e.message)
-    }
-  }
-
   return (
-      <div className="container">
-        <h1>Test API</h1>
-        <div className="row">
-          <button className="btn btn-primary"
-                  onClick={() => run(() => login('employee1@incidents.ma', 'Employee@123'))}>
-            Login employee1
-          </button>
-          <button className="btn btn-secondary"
-                  onClick={() => run(async () => (await api.get('/api/profile')).data)}>
-            GET /api/profile
-          </button>
-          <button className="btn btn-danger"
-                  onClick={() => run(async () => (await api.get('/api/admin/users')).data)}>
-            GET /api/admin/users
-          </button>
-          <button className="btn btn-secondary"
-                  onClick={() => run(async () => { await logout(); return 'Logged out' })}>
-            Logout
-          </button>
-        </div>
-        <pre className="card" style={{ marginTop: 16 }}>{JSON.stringify(result, null, 2)}</pre>
-      </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AppLayout />}>
+
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/incidents/:id" element={<IncidentDetails />} />
+
+            <Route element={<RoleRoute roles={['EMPLOYEE']} />}>
+              <Route path="/incidents/my" element={<MyIncidents />} />
+              <Route path="/incidents/new" element={<NewIncident />} />
+            </Route>
+
+            <Route element={<RoleRoute roles={['TECHNICIAN']} />}>
+              <Route path="/incidents/assigned" element={<AssignedIncidents />} />
+            </Route>
+
+            <Route element={<RoleRoute roles={['ADMIN']} />}>
+              <Route path="/admin/users" element={<AdminUsers />} />
+              <Route path="/admin/incidents" element={<AdminIncidents />} />
+            </Route>
+
+          </Route>
+        </Route>
+
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
   )
 }
