@@ -161,3 +161,10 @@ h1, h2, h3 { margin: 0 0 var(--space); }
 .table-link:hover { text-decoration: underline; }
 
 .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: var(--space); }
+
+
+.badge-EMPLOYEE   { background: #f1f5f9; color: #334155; }
+.badge-TECHNICIAN { background: #e0f2fe; color: #075985; }
+.badge-ADMIN      { background: #fce7f3; color: #9d174d; }
+.badge-enabled    { background: #dcfce7; color: #166534; }
+.badge-disabled   { background: #fee2e2; color: #991b1b; }

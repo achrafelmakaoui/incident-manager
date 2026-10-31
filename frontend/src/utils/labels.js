@@ -23,6 +23,11 @@ export const STATUS_LABELS = {
     RESOLVED: 'Résolu',
     CLOSED: 'Clôturé',
 }
+export const ROLE_LABELS = {
+    EMPLOYEE: 'Employé',
+    TECHNICIAN: 'Technicien',
+    ADMIN: 'Administrateur',
+}
 
 const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
     day: '2-digit', month: '2-digit', year: 'numeric',
